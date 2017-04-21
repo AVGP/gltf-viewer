@@ -75,7 +75,8 @@ Displays a 3D representation of a glTF file
             y: bbox.max.y - bbox.min.y,
             z: bbox.max.z - bbox.min.z
           }
-          this._camera.position.set(bbox.min.x + bbox.dimensions.x/2, bbox.min.y + bbox.dimensions.y/2, bbox.max.z + Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
+          gltf.scene.position.sub(new THREE.Vector3(bbox.min.x + bbox.dimensions.x / 2, bbox.min.y + bbox.dimensions.y / 2, bbox.min.z + bbox.dimensions.z / 2))
+          this._camera.position.set(bbox.dimensions.x/2, bbox.dimensions.y/2, Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
         })
       }
 
