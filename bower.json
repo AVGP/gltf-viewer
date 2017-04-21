@@ -1,0 +1,17 @@
+{
+  "name": "gltf-viewer",
+  "description": "Displays a 3D representation of a glTF file",
+  "main": "gltf-viewer.html",
+  "version": "1.0.0",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0-rc.2"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#2.0-preview",
+    "web-component-tester": "^6.0.0-prerelease.5",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.5"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0-rc.2"
+  }
+}

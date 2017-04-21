@@ -1,0 +1,51 @@
+{
+  "name": "prism-element",
+  "description": "Prism.js import and syntax highlighting",
+  "version": "2.0.0",
+  "authors": [
+    "The Polymer Project Authors (https://polymer.github.io/AUTHORS.txt)"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "prism",
+    "molecule"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/prism-element.git"
+  },
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/PolymerElements/prism-highlighter",
+  "main": "prism-highlighter.html",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "prism": "*",
+    "polymer": "Polymer/polymer#^2.0.0-rc.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#2.0-preview",
+    "paper-styles": "PolymerElements/paper-styles#2.0-preview",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.1",
+    "test-fixture": "PolymerElements/test-fixture#^3.0.0-rc.1",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0-prerelease.6"
+  },
+  "variants": {
+    "1.x": {
+      "dependencies": {
+        "prism": "*",
+        "polymer": "Polymer/polymer#^1.5.0"
+      },
+      "devDependencies": {
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+        "paper-styles": "PolymerElements/paper-styles#^1.0.0",
+        "web-component-tester": "^4.0.0",
+        "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+      }
+    }
+  }
+}

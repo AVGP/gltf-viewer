@@ -1,0 +1,13 @@
+<script>
+  // override edge's URL Implementation that does not convert spaces to %20
+  // must be run before Polymer's url polyfill
+  try {
+    var href = new URL('http://www.google.com/?foo bar').href;
+    if (href !== 'http://www.google.com/?foo%20bar') {
+      window.forceJURL = true;
+    }
+  } catch (e) {
+    window.forceJURL = true;
+  }
+</script>
+<script src="../../url/url.js"></script>

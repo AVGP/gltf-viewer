@@ -1,0 +1,41 @@
+{
+  "name": "webcomponentsjs",
+  "description": "Web components polyfill",
+  "main": "webcomponents.js",
+  "version": "1.0.0-rc.9",
+  "homepage": "http://webcomponents.org",
+  "authors": [
+    "The Polymer Authors"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webcomponents/webcomponentsjs.git"
+  },
+  "keywords": [
+    "webcomponents",
+    "web-components",
+    "polyfill",
+    "shim"
+  ],
+  "license": "BSD-3-Clause",
+  "ignore": [],
+  "devDependencies": {
+    "web-component-tester": "^v6.0.0-prerelease.9",
+    "custom-elements": "webcomponents/custom-elements#^v1.0.0-rc.1",
+    "es6-promise": "stefanpenner/es6-promise#^4.0.0",
+    "html-imports": "webcomponents/html-imports#^v1.0.0-rc.2",
+    "shadydom": "webcomponents/shadydom#^v1.0.0-rc.1",
+    "shadycss": "webcomponents/shadycss#^v1.0.0-rc.1",
+    "template": "webcomponents/template#^v1.0.0-rc.1",
+    "webcomponents-platform": "webcomponents/webcomponents-platform#^v1.0.0-rc.1"
+  },
+  "_release": "1.0.0-rc.9",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.0-rc.9",
+    "commit": "ee084a136089dda80a1604a129b9f38e2d95a90b"
+  },
+  "_source": "https://github.com/webcomponents/webcomponentsjs.git",
+  "_target": "^1.0.0-rc.5",
+  "_originalSource": "webcomponents/webcomponentsjs"
+}

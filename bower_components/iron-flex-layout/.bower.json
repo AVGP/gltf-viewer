@@ -1,0 +1,57 @@
+{
+  "name": "iron-flex-layout",
+  "description": "Provide flexbox-based layouts",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "layout"
+  ],
+  "main": "iron-flex-layout.html",
+  "private": true,
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "authors": [
+    "The Polymer Authors"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-flex-layout.git"
+  },
+  "dependencies": {
+    "polymer": "polymer/polymer#^2.0.0-rc.1"
+  },
+  "devDependencies": {
+    "test-fixture": "PolymerElements/test-fixture#^3.0.0-rc.1",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0-prerelease.6",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.1",
+    "iron-component-page": "polymerelements/iron-component-page#2.0-preview",
+    "iron-demo-helpers": "polymerelements/iron-demo-helpers#2.0-preview"
+  },
+  "ignore": [],
+  "variants": {
+    "1.x": {
+      "dependencies": {
+        "polymer": "Polymer/polymer#^1.1.0"
+      },
+      "devDependencies": {
+        "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+        "web-component-tester": "Polymer/web-component-tester#^4.0.0",
+        "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
+        "iron-demo-helpers": "polymerelements/iron-demo-helpers#^1.0.0"
+      }
+    }
+  },
+  "pages": {
+    "Flexbox layout guide": "GUIDE.md"
+  },
+  "homepage": "https://github.com/polymerelements/iron-flex-layout",
+  "_release": "59acecd03b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "2.0-preview",
+    "commit": "59acecd03be31a9d987864a7956d53f3a7edc703"
+  },
+  "_source": "https://github.com/polymerelements/iron-flex-layout.git",
+  "_target": "2.0-preview",
+  "_originalSource": "polymerelements/iron-flex-layout"
+}
