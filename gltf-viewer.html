@@ -72,7 +72,7 @@ Displays a 3D representation of a glTF file
             y: bbox.max.y - bbox.min.y,
             z: bbox.max.z - bbox.min.z
           }
-          this._camera.position.set(bbox.min.x + bbox.dimensions.x/2, bbox.min.y + bbox.dimensions.y, bbox.max.z + Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
+          this._camera.position.set(bbox.min.x + bbox.dimensions.x/2, bbox.min.y + bbox.dimensions.y/2, bbox.max.z + Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
           console.log(bbox, this._camera.position)
         })
       }
