@@ -2,7 +2,6 @@
   "name": "gltf-viewer",
   "description": "Displays a 3D representation of a glTF file",
   "main": "gltf-viewer.html",
-  "version": "1.0.0",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0-rc.2"
   },
