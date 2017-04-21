@@ -60,6 +60,7 @@ Displays a 3D representation of a glTF file
       }
 
       load(src) {
+        this._scene.children.each((child) => this._scene.remove(child))
         let loader = new THREE.GLTF2Loader()
 
         loader.load(src, (gltf) => {
