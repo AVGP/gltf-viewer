@@ -60,14 +60,14 @@ Displays a 3D representation of a glTF file
       }
 
       load(src) {
-        this._scene.children.forEach((child) => this._scene.remove(child))
-        this._scene.add(new THREE.AmbientLight(0x888888))
+        const scene = this._scene
+        const len = scene.children.length
+        for(let i=len-1; i>0; i--) scene.remove(scene.children[i])
 
         let loader = new THREE.GLTF2Loader()
 
         loader.load(src, (gltf) => {
-          this._scene.add(gltf.scene)
-          console.log(gltf.scene)
+          scene.add(gltf.scene)
 // FIT CAM
           const bbox = new THREE.Box3().setFromObject(this._scene)
           bbox.dimensions = {
@@ -76,7 +76,6 @@ Displays a 3D representation of a glTF file
             z: bbox.max.z - bbox.min.z
           }
           this._camera.position.set(bbox.min.x + bbox.dimensions.x/2, bbox.min.y + bbox.dimensions.y/2, bbox.max.z + Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
-          console.log(bbox, this._camera.position)
         })
       }
 
