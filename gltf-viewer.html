@@ -16,9 +16,9 @@ Displays a 3D representation of a glTF file
   <template>
     <style>
       :host {
-        display: inline-block;
-        width: 200px;
-        height: 200px;
+        display: block;
+        width: 100%;
+        height: 100%;
       }
     </style>
     <canvas id="canvas"></canvas>
@@ -37,6 +37,12 @@ Displays a 3D representation of a glTF file
           isRunning: {
             type: Boolean,
             readOnly: true
+          },
+          interactive: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+            observer: '_changedInteractive'
           }
         };
       }
@@ -59,8 +65,14 @@ Displays a 3D representation of a glTF file
         requestAnimationFrame(this._render.bind(this))
       }
 
+      _changedInteractive(newValue) {
+        if(!this._controls) return
+        this._controls.enabled = newValue
+      }
+
       load(src) {
         const scene = this._scene
+        if(!scene) return
         const len = scene.children.length
         for(let i=len-1; i>0; i--) scene.remove(scene.children[i])
 
@@ -93,6 +105,7 @@ Displays a 3D representation of a glTF file
         this._scene.add(new THREE.AmbientLight(0x888888))
 
         this._controls = new THREE.OrbitControls(this._camera, canvas)
+        if(!this.interactive) this._controls.enabled = false
 
 
         requestAnimationFrame(() => {
@@ -101,7 +114,16 @@ Displays a 3D representation of a glTF file
           this._camera.updateProjectionMatrix()
           this._renderer.setSize(dimensions.width, dimensions.height)
           console.log(`Set dimensions to ${dimensions.width}x${dimensions.height}`, dimensions)
+          if(this.src) this.load(this.src)
           this.start()
+        })
+
+        window.addEventListener('resize', () => {
+          const dimensions = this.getBoundingClientRect()
+          this._camera.aspect = dimensions.width / dimensions.height
+          this._camera.updateProjectionMatrix()
+          this._renderer.setSize(dimensions.width, dimensions.height)
+          console.log(`Set dimensions to ${dimensions.width}x${dimensions.height}`, dimensions)
         })
       }
     }
