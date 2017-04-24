@@ -8,5 +8,8 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
 addons:
   firefox: "latest"
+  apt:
+    packages:
+      - oracle-java8-set-default
 script:
   - "polymer test -l \"firefox\""
