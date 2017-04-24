@@ -16,142 +16,149 @@ Displays a 3D representation of a glTF file
     <template>
     <style>
       :host {
-        display: block;        
+        display: inline-block;
+        padding: 0;
+        margin: 0;        
+      }
+
+      canvas {
+        padding: 0;
       }
     </style>
     <canvas id="canvas"></canvas>
   </template>
 
     <script>
-        const clock = new THREE.Clock()
-        /** @polymerElement */
-        class GltfViewer extends Polymer.Element {
-            static get is() {
-                return 'gltf-viewer';
-            }
-            static get properties() {
-                return {
-                    src: {
-                        type: String,
-                        observer: 'load'
-                    },
-                    isRunning: {
-                        type: Boolean,
-                        readOnly: true
-                    },
-                    interactive: {
-                        type: Boolean,
-                        value: false,
-                        reflectToAttribute: true,
-                        observer: '_changedInteractive'
-                    },
-                    width: Number,
-                    height: Number
-                };
-            }
-
-            start() {
-                if (this.isRunning) return
-
-                requestAnimationFrame(this._render.bind(this))
-                this._setIsRunning(true)
-            }
-
-            stop() {
-                this._setIsRunning(false)
-            }
-
-            _render() {
-                if (!this.isRunning) return
-                this._controls.update()
-                if(this._mixer) this._mixer.update(clock.getDelta())
-                                
-                this._renderer.render(this._scene, this._camera)
-                requestAnimationFrame(this._render.bind(this))
-            }
-
-            _changedInteractive(newValue) {
-                if (!this._controls) return
-                this._controls.enabled = newValue
-            }
-
-            load(src) {
-                const scene = this._scene
-                if (!scene) return
-
-                const len = scene.children.length
-                for (let i = len - 1; i > 0; i--) scene.remove(scene.children[i])
-
-                let loader = new THREE.GLTF2Loader()
-
-                loader.load(src, (gltf) => {
-
-                    if(gltf.animations && gltf.animations.length > 0) {
-                        const animations = gltf.animations
-                        this._mixer = new THREE.AnimationMixer(gltf.scene)
-
-						for(var i = 0; i < animations.length; i++) {
-							var animation = animations[i]
-							this._mixer.clipAction(animation).play()
-                        }
-                    }
-
-                    scene.add(gltf.scene)
-                        // FIT CAM
-                    const bbox = new THREE.Box3().setFromObject(this._scene)
-                    bbox.dimensions = {
-                        x: bbox.max.x - bbox.min.x,
-                        y: bbox.max.y - bbox.min.y,
-                        z: bbox.max.z - bbox.min.z
-                    }
-                    gltf.scene.position.sub(new THREE.Vector3(bbox.min.x + bbox.dimensions.x / 2, bbox.min.y + bbox.dimensions.y / 2, bbox.min.z + bbox.dimensions.z / 2))
-                    this._camera.position.set(bbox.dimensions.x / 2, bbox.dimensions.y / 2, Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
-                })
-            }
-
-            ready() {
-                super.ready()
-
-                const canvas = this.$.canvas
-
-                this._camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000)
-                this._scene = new THREE.Scene()
-                this._renderer = new THREE.WebGLRenderer({
-                    canvas
-                })
-                this._isRunning = false
-
-                this._scene.add(new THREE.AmbientLight(0x888888))
-
-                this._controls = new THREE.OrbitControls(this._camera, canvas)
-                if (!this.interactive) this._controls.enabled = false
-
-                if (this.width && this.height) {
-                    this._camera.aspect = this.width / this.height
-                    this._camera.updateProjectionMatrix()
-                    this._renderer.setSize(this.width, this.height)
-                    if (this.src) this.load(this.src)
-                    this.start()
-                } else {
-                    requestAnimationFrame(() => {
-                        const dimensions = this.getBoundingClientRect();
-                        this._camera.aspect = dimensions.width / dimensions.height
-                        this._camera.updateProjectionMatrix()
-                        this._renderer.setSize(dimensions.width, dimensions.height)
-                        if (this.src) this.load(this.src)
-                        this.start()
-                    })
-                }
-
-                window.addEventListener('resize', () => {
-                    const dimensions = this.getBoundingClientRect()
-                    this._camera.aspect = dimensions.width / dimensions.height
-                    this._camera.updateProjectionMatrix()
-                    this._renderer.setSize(dimensions.width, dimensions.height)
-                })
-            }
+      const clock = new THREE.Clock()
+      /** @polymerElement */
+      class GltfViewer extends Polymer.Element {
+        static get is() {
+          return 'gltf-viewer';
+        }
+        static get properties() {
+          return {
+            src: {
+              type: String,
+              observer: 'load'
+            },
+            isRunning: {
+              type: Boolean,
+              readOnly: true
+            },
+            interactive: {
+              type: Boolean,
+              value: false,
+              reflectToAttribute: true,
+              observer: '_changedInteractive'
+            },
+            width: Number,
+            height: Number
+          };
         }
 
-        window.customElements.define(GltfViewer.is, GltfViewer);
+        start() {
+          if (this.isRunning) return
+
+          requestAnimationFrame(this._render.bind(this))
+          this._setIsRunning(true)
+        }
+
+        stop() {
+          this._setIsRunning(false)
+        }
+
+        _render() {
+          if (!this.isRunning) return
+          this._controls.update()
+          if(this._mixer) this._mixer.update(clock.getDelta())
+                          
+          this._renderer.render(this._scene, this._camera)
+          requestAnimationFrame(this._render.bind(this))
+        }
+
+        _changedInteractive(newValue) {
+          if (!this._controls) return
+          this._controls.enabled = newValue
+        }
+
+        load(src) {
+          const scene = this._scene
+          if (!scene) return
+
+          const len = scene.children.length
+          for (let i = len - 1; i > 0; i--) scene.remove(scene.children[i])
+
+          let loader = new THREE.GLTF2Loader()
+
+          loader.load(src, (gltf) => {
+
+            if(gltf.animations && gltf.animations.length > 0) {
+              const animations = gltf.animations
+              this._mixer = new THREE.AnimationMixer(gltf.scene)
+
+              for(var i = 0; i < animations.length; i++) {
+                var animation = animations[i]
+                this._mixer.clipAction(animation).play()
+              }
+            }
+
+            scene.add(gltf.scene)
+            // FIT CAM
+            const bbox = new THREE.Box3().setFromObject(this._scene)
+            bbox.dimensions = {
+              x: bbox.max.x - bbox.min.x,
+              y: bbox.max.y - bbox.min.y,
+              z: bbox.max.z - bbox.min.z
+            }
+            gltf.scene.position.sub(new THREE.Vector3(bbox.min.x + bbox.dimensions.x / 2, bbox.min.y + bbox.dimensions.y / 2, bbox.min.z + bbox.dimensions.z / 2))
+            this._camera.position.set(bbox.dimensions.x / 2, bbox.dimensions.y / 2, Math.max(bbox.dimensions.x, bbox.dimensions.y, bbox.dimensions.z))
+            this.dispatchEvent(new CustomEvent('load'))
+          })
+        }
+
+        ready() {
+          super.ready()
+
+          const canvas = this.$.canvas
+
+          this._camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000)
+          this._scene = new THREE.Scene()
+          this._renderer = new THREE.WebGLRenderer({
+              canvas
+          })
+          this._isRunning = false
+
+          this._scene.add(new THREE.AmbientLight(0x888888))
+
+          this._controls = new THREE.OrbitControls(this._camera, canvas)
+          if (!this.interactive) this._controls.enabled = false
+
+          if (this.width && this.height) {
+              this._camera.aspect = this.width / this.height
+              this._camera.updateProjectionMatrix()
+              this._renderer.setSize(this.width, this.height)
+              if (this.src) this.load(this.src)
+              this.start()
+          } else {
+              requestAnimationFrame(() => {
+                  const dimensions = this.getBoundingClientRect();
+                  this._camera.aspect = dimensions.width / dimensions.height
+                  this._camera.updateProjectionMatrix()
+                  this._renderer.setSize(dimensions.width, dimensions.height)
+                  if (this.src) this.load(this.src)
+                  this.start()
+              })
+          }
+
+          window.addEventListener('resize', () => {
+            const dimensions = this.getBoundingClientRect()
+            this._camera.aspect = dimensions.width / dimensions.height
+            this._camera.updateProjectionMatrix()
+            this._renderer.setSize(dimensions.width, dimensions.height)
+          })
+        }
+      }
+
+      window.customElements.define(GltfViewer.is, GltfViewer);
     </script>
 </dom-module>
