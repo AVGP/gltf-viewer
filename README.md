@@ -1,12 +1,27 @@
 # \<gltf-viewer\>
 
-Displays a 3D representation of a glTF model, interactive or static. 
+Displays a 3D representation of a glTF model, interactive or static.
 
-## Live demo 
+## Live demo
 
-[See the component in action](https://avgp.github.io/gltf-viewer). 
+<!--
+```
+<custom-element-demo height="300">
+  <template>
+    <link rel="import" href="gltf-viewer.html">
+    <gltf-viewer src="demo/duck.gltf" interactive></gltf-viewer>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<other-element></other-element>
+<my-element></my-element>
+```
 
-## Usage 
+[See the component in action](https://avgp.github.io/gltf-viewer).
+
+## Usage
 
 Here is a simple sample to get you started:
 
