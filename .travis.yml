@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "7.8.0"
+before_install:
+  - "npm install -g polymer"
+  - "bower install"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+script:
+  - "polymer test --l \"chrome,firefox\""
