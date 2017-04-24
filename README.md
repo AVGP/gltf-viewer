@@ -1,19 +1,31 @@
 # \<gltf-viewer\>
 
-Displays a 3D representation of a glTF file
+Displays a 3D representation of a glTF model, interactive or static. 
 
-## Install the Polymer-CLI
+## Live demo 
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
+[See the component in action](https://avgp.github.io/gltf-viewer). 
 
-## Viewing Your Element
+## Usage 
 
-```
-$ polymer serve
+You can us the component by importing it like this:
+
+```html
+<!doctype html>
+<html>
+<head>
+  <!--  polyfill for older browsers -->
+  <script src="https://cdnjs.com/webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="https://avgp.github.io/gltf-viewer/gltf-viewer.html">
+</head>
+<body>
+  <gltf-viewer interactive src="/model.gltf"></gltf-viewer>
+</body>
+</html>
 ```
 
 ## Running Tests
-
 ```
 $ polymer test
 ```
