@@ -18,11 +18,12 @@ Displays a 3D representation of a glTF file
       :host {
         display: inline-block;
         padding: 0;
-        margin: 0;        
+        margin: 0;
       }
 
       canvas {
         display: table-cell;
+        display: flex;
         padding: 0;
       }
     </style>
@@ -72,7 +73,7 @@ Displays a 3D representation of a glTF file
           if (!this.isRunning) return
           this._controls.update()
           if(this._mixer) this._mixer.update(clock.getDelta())
-                          
+
           this._renderer.render(this._scene, this._camera)
           requestAnimationFrame(this._render.bind(this))
         }
@@ -135,20 +136,24 @@ Displays a 3D representation of a glTF file
           if (!this.interactive) this._controls.enabled = false
 
           if (this.width && this.height) {
+/*
+              this.style.width = this.width + 'px'
+              this.style.height = this.height + 'px' */
               this._camera.aspect = this.width / this.height
               this._camera.updateProjectionMatrix()
-              this._renderer.setSize(this.width, this.height)
+              this._renderer.setSize(this.width, this.height, false)
               if (this.src) this.load(this.src)
               this.start()
           } else {
-              requestAnimationFrame(() => {
-                  const dimensions = this.getBoundingClientRect();
-                  this._camera.aspect = dimensions.width / dimensions.height
-                  this._camera.updateProjectionMatrix()
-                  this._renderer.setSize(dimensions.width, dimensions.height)
-                  if (this.src) this.load(this.src)
-                  this.start()
-              })
+            console.log('Auto dimensions')
+            requestAnimationFrame(() => {
+              const dimensions = this.getBoundingClientRect();
+              this._camera.aspect = dimensions.width / dimensions.height
+              this._camera.updateProjectionMatrix()
+              this._renderer.setSize(dimensions.width, dimensions.height)
+              if (this.src) this.load(this.src)
+              this.start()
+            })
           }
 
           window.addEventListener('resize', () => {
