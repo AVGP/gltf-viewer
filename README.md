@@ -8,7 +8,9 @@ Displays a 3D representation of a glTF model, interactive or static.
 
 ## Usage 
 
-You can us the component by importing it like this:
+Here is a simple sample to get you started:
+
+*Important note:* The example is great to try it out, but you should install the component if you build an application with `<gltf-viewer>` so you don't rely on external sources too much!
 
 ```html
 <!doctype html>
@@ -25,9 +27,55 @@ You can us the component by importing it like this:
 </html>
 ```
 
-## Running Tests
+## Installation
+
+The component can be installed via [Bower](https://bower.io):
+
+```bash
+bower install gltf-viewer
+```
+
+## Browser support & glTF support
+
+The component supports:
+
+* IE10 and up
+* Safari (OSX & iOS)
+* Opera
+* Firefox
+* Edge
+* Chrome & Android browser from 4.x upwards
+
+The component supports both glTF 1.0 and glTF 2.0 models.
+
+## Contributing
+
+If you think the component is missing something or you found a bug, please submit an issue and/or a pull request!
+
+### Setup for contributing
+
+The easiest way to get going is to install the `polymer-cli`:
+
+```bash
+npm install -g polymer-cli
+```
+
+Then you can clone this repository to your local computer:
+
+```bash
+git clone https://github.com/avgp/gltf-viewer.git
+cd gltf-viewer
+```
+You are now inside your cloned repository.
+
+## Serving the local component
+
+If you have `polymer-cli` installed, go into your clone of this repository and run `polymer serve` in a terminal.
+You can access the demos via the URL that will be displayed and use the component locally.
+
+### Running Tests
 ```
 $ polymer test
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+The component uses [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
