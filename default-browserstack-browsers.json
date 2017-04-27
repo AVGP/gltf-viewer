@@ -1,5 +1,19 @@
 [
   {
+    "browserName" : "Edge",
+    "browser_version" : "14.0",
+    "os" : "Windows",
+    "os_version" : "10",
+    "resolution" : "1024x768"
+  },
+  {
+    "browserName" : "Safari",
+    "browser_version" : "9.1",
+    "os" : "OS X",
+    "os_version" : "El Capitan",
+    "resolution" : "1024x768"
+  },  
+  {
     "browserName"     : "chrome",
     "os"              : "windows",
     "os_version"      : "10",
@@ -12,12 +26,5 @@
     "os_version"      : "10",
     "browser_version" : "52",
     "resolution"      : "1024x768"
-  },
-  {
-    "browserName" : "Safari",
-    "browser_version" : "9.1",
-    "os" : "OS X",
-    "os_version" : "El Capitan",
-    "resolution" : "1024x768"
   }   
 ]

@@ -2,6 +2,7 @@
 
 [![](https://travis-ci.org/AVGP/gltf-viewer.svg?branch=master)]](https://travis-ci.org/AVGP/gltf-viewer)
 Displays a 3D representation of a glTF model, interactive or static.
+![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=UzNReXpkU1F0L0ZiT1Q4Zk1DNDd3WThjazVDZXRZbTRVdm5VN3BUYTdjcz0tLVVEUTZrYWhjdlR3d3U1V05ab3hqMkE9PQ==--c9e78044bc4836e4162cb00b0d45e04578e02938)
 
 Tested with [BrowserStack <img src="https://dgzoq9b5asjg1.cloudfront.net/production/images/static/header/header-logo.svg" height="30">](https://browserstack.com)
 
