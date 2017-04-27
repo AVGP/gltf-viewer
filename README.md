@@ -1,5 +1,6 @@
 # \<gltf-viewer\>
 
+[![](https://travis-ci.org/AVGP/gltf-viewer.svg?branch=master)]](https://travis-ci.org/AVGP/gltf-viewer)
 Displays a 3D representation of a glTF model, interactive or static.
 
 Tested with [BrowserStack <img src="https://dgzoq9b5asjg1.cloudfront.net/production/images/static/header/header-logo.svg" height="30">](https://browserstack.com)
