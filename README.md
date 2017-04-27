@@ -59,7 +59,6 @@ bower install gltf-viewer
 
 The component supports:
 
-* IE10 and up
 * Safari (OSX & iOS)
 * Opera
 * Firefox
