@@ -41,6 +41,6 @@ function configBrowserStack(config) {
   config.activeBrowsers = config.activeBrowsers.concat(browsers);
 }
 
-configBrowserStack(ret);
+if(process.env.BROWSERSTACK_KEY) configBrowserStack(ret);
 
 module.exports = ret;
