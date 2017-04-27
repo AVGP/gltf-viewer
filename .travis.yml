@@ -4,10 +4,12 @@ node_js:
 before_install:
   - "npm install -g polymer-cli bower"
   - "bower install"
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
 addons:
-  firefox: "latest"
+  browserstack:
+    username: "martin240" 
+    access_key:
+      secure: "hgVNkQ0N8VBhWefIa7QaEqf+tjW9vI3Q5vAK7JpM1M+ggo6t61UmamIkgwOqeyiKHnFswuBmBcH7k+WSlu5yHnmhv9/o02r9eh8DSNh+tzKGnB3d16jXdbbt4YeW1oLYW5cIVuosecv7YIptoChPyzpsBOfqgbShL+/twm72dOWmIBuMy74JzoZEJusec1kgk5i1iBFADqJ2DbuiWuasK3VhJd2oH2etmLBfw9LweNJu1K7NfVj0FIuItGWAHlvKVcvmi9rNbrX0T2AYk5E7ffA8tQKr7tOCyZtfCd55YYsun0SmIE+sjSWd0XaIKmGoh02Gmb56aAAOS997ckpTPQtr/UqY5/Ge1GRJh6ZA++v7S6V8NHbq+qrpW+ru/fKCe6vrP5IrUIXI9hIrWG9iXAIaKQbrNlIVDyIk2DhUUHUT3+IXPjEfPKoSICknyxE/PSWoUcuenW6QqUyRpjauSZ1LcG+HL9ik+/wEJDgT1aJl3tAKerM8c4XO7v7tyDnESqIVa3KRlR+pfQLeLh+e52VFZFEKgQq2i/h50htYSgWz4Hc/O0kY+R5XgYcjEuxUZ1HlQxZ9XwmQdODFe8T8CjLGi3mimCSBtYmFD3r+4NIS1DGAuQ0Vu6hI2Wq8i2BiBZGx5/didv9JST4I6Zt/HlCS1+MzHOLuRx022heVlP4="
+    forcelocal: true
   apt:
     packages:
       - oracle-java8-set-default
