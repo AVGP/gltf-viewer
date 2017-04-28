@@ -91,6 +91,7 @@ Displays a 3D representation of a glTF file
           for (let i = len - 1; i > 0; i--) scene.remove(scene.children[i])
 
           let loader = new THREE.GLTF2Loader()
+          loader.setCrossOrigin('')
 
           loader.load(src, (gltf) => {
 
