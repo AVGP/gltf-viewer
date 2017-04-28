@@ -20,8 +20,7 @@ Tested with [BrowserStack <img src="https://dgzoq9b5asjg1.cloudfront.net/product
 ```
 -->
 ```html
-<other-element></other-element>
-<my-element></my-element>
+  <gltf-viewer src="demo/duck.gltf" interactive></gltf-viewer>
 ```
 
 [See the component in action](https://avgp.github.io/gltf-viewer).
