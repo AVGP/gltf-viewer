@@ -21,7 +21,7 @@
 
     <test-fixture id="SimpleLoadFixture">
       <template>
-        <gltf-viewer width="400" height="400" src="../demo/duck.gltf"></gltf-viewer>
+        <gltf-viewer width="400" height="400" src="../demo/duck2.gltf"></gltf-viewer>
       </template>
     </test-fixture>
 
@@ -39,7 +39,7 @@
         test('loading a model works', function(done) {
           // Create a test fixture
           var element = fixture('SimpleLoadFixture');
-          assert.equal(element.src, '../demo/duck.gltf');
+          assert.equal(element.src, '../demo/duck2.gltf');
           element.addEventListener('load', function() {
             assert.equal(element._scene.children.length, 2)
             var rect = element.getBoundingClientRect()
