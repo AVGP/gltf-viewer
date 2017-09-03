@@ -24,7 +24,7 @@
         <p>By default the viewer will take the size of the surrounding container and does not allow the user to move the camera or zoom.</p>
         <demo-snippet>
           <template>
-            <gltf-viewer src="duck.gltf"></gltf-viewer>
+            <gltf-viewer src="duck2.gltf"></gltf-viewer>
           </template>
         </demo-snippet>
 
@@ -32,7 +32,7 @@
         <p>You can use the <code>width</code> and <code>height</code> attributes to specify the size of the viewer.</p>
         <demo-snippet>
           <template>
-            <gltf-viewer width="300" height="300" src="duck.gltf"></gltf-viewer>
+            <gltf-viewer width="300" height="300" src="duck2.gltf"></gltf-viewer>
           </template>
         </demo-snippet>
 
@@ -44,7 +44,7 @@
         <p>This behaviour can also be set dynamically by calling <code>document.querySelector('gltf-viewer').interactive = true // or false</code></p>
         <demo-snippet>
           <template>
-            <gltf-viewer width="300" height="300" interactive src="duck.gltf"></gltf-viewer>
+            <gltf-viewer width="300" height="300" interactive src="duck2.gltf"></gltf-viewer>
           </template>
         </demo-snippet>
 
@@ -53,7 +53,7 @@
         <p>You can stop and start animations by calling the <code>stop</code> and <code>stop</code> methods:</p>
         <demo-snippet>
           <template>
-            <gltf-viewer id="player" width="300" height="300" interactive src="Cesium_Man.gltf"></gltf-viewer>
+            <gltf-viewer id="player" width="300" height="300" interactive src="CesiumMan.gltf"></gltf-viewer>
             <button onclick="document.getElementById('player').start()">Play</button>
             <button onclick="document.getElementById('player').stop()">Stop</button>
           </template>
