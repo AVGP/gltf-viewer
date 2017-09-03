@@ -336,36 +336,6 @@ THREE.GLTF2Loader = ( function () {
 
 			if ( lightNode ) {
 
-				if ( light.constantAttenuation !== undefined ) {
-
-					lightNode.intensity = light.constantAttenuation;
-
-				}
-
-				if ( light.linearAttenuation !== undefined ) {
-
-					lightNode.distance = 1 / light.linearAttenuation;
-
-				}
-
-				if ( light.quadraticAttenuation !== undefined ) {
-
-					lightNode.decay = light.quadraticAttenuation;
-
-				}
-
-				if ( light.fallOffAngle !== undefined ) {
-
-					lightNode.angle = light.fallOffAngle;
-
-				}
-
-				if ( light.fallOffExponent !== undefined ) {
-
-					console.warn( 'GLTF2Loader: light.fallOffExponent not currently supported.' );
-
-				}
-
 				lightNode.name = light.name || ( 'light_' + lightId );
 				this.lights[ lightId ] = lightNode;
 
@@ -442,7 +412,6 @@ THREE.GLTF2Loader = ( function () {
 		if ( materialValues.diffuseFactor !== undefined ) {
 
 			materialParams.color = new THREE.Color().fromArray( materialValues.diffuseFactor );
-			materialParams.opacity = materialValues.diffuseFactor[ 3 ];
 
 		}
 
@@ -1812,17 +1781,17 @@ THREE.GLTF2Loader = ( function () {
 				// For VEC3: itemSize is 3, elementBytes is 4, itemBytes is 12.
 				var elementBytes = TypedArray.BYTES_PER_ELEMENT;
 				var itemBytes = elementBytes * itemSize;
-				var byteStride = json.bufferViews[ accessor.bufferView ].byteStride;
+
 				var array;
 
 				// The buffer is not interleaved if the stride is the item size in bytes.
-				if ( byteStride && byteStride !== itemBytes ) {
+				if ( accessor.byteStride && accessor.byteStride !== itemBytes ) {
 
 					// Use the full buffer if it's interleaved.
 					array = new TypedArray( arraybuffer );
 
 					// Integer parameters to IB/IBA are in array elements, not bytes.
-					var ib = new THREE.InterleavedBuffer( array, byteStride / elementBytes );
+					var ib = new THREE.InterleavedBuffer( array, accessor.byteStride / elementBytes );
 
 					return new THREE.InterleavedBufferAttribute( ib, itemSize, accessor.byteOffset / elementBytes );
 
@@ -1988,6 +1957,14 @@ THREE.GLTF2Loader = ( function () {
 
 						materialParams.map = dependencies.textures[ metallicRoughness.baseColorTexture.index ];
 
+						var alphaMode = metallicRoughness.baseColorTexture.alphaMode || ALPHA_MODES.OPAQUE;
+
+						if ( alphaMode !== ALPHA_MODES.OPAQUE ) {
+
+							materialParams.transparent = true;
+
+						}
+
 					}
 
 					materialParams.metalness = metallicRoughness.metallicFactor !== undefined ? metallicRoughness.metallicFactor : 1.0;
@@ -2013,9 +1990,7 @@ THREE.GLTF2Loader = ( function () {
 
 				}
 
-				var alphaMode = material.alphaMode || ALPHA_MODES.OPAQUE;
-
-				if ( alphaMode !== ALPHA_MODES.OPAQUE ) {
+				if ( materialParams.opacity !== undefined && materialParams.opacity < 1.0 ) {
 
 					materialParams.transparent = true;
 
@@ -2184,7 +2159,7 @@ THREE.GLTF2Loader = ( function () {
 
 						}
 
-						if ( material.aoMap
+						if ( material.aoMap !== undefined
 								&& geometry.attributes.uv2 === undefined
 								&& geometry.attributes.uv !== undefined ) {
 
@@ -2328,13 +2303,17 @@ THREE.GLTF2Loader = ( function () {
 
 							geometry.setIndex( dependencies.accessors[ primitive.indices ] );
 
-						}
+							meshNode = new THREE.LineSegments( geometry, material );
 
-						meshNode = new THREE.LineSegments( geometry, material );
+						} else {
+
+							meshNode = new THREE.Line( geometry, material );
+
+						}
 
 					} else {
 
-						throw new Error( 'Only triangular and line primitives are supported' );
+						throw new Error( "Only triangular and line primitives are supported" );
 
 					}
 
@@ -2361,43 +2340,38 @@ THREE.GLTF2Loader = ( function () {
 
 	};
 
-	/**
-	 * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#cameras
-	 */
 	GLTFParser.prototype.loadCameras = function () {
 
 		var json = this.json;
 
 		return _each( json.cameras, function ( camera ) {
 
-			var _camera;
+			if ( camera.type == "perspective" && camera.perspective ) {
 
-			var params = camera[ camera.type ];
+				var yfov = camera.perspective.yfov;
+				var aspectRatio = camera.perspective.aspectRatio !== undefined ? camera.perspective.aspectRatio : 1;
 
-			if ( !params ) {
+				// According to COLLADA spec...
+				// aspectRatio = xfov / yfov
+				var xfov = yfov * aspectRatio;
 
-				console.warn( 'GLTF2Loader: Missing camera parameters.' );
-				return;
+				var _camera = new THREE.PerspectiveCamera( THREE.Math.radToDeg( xfov ), aspectRatio, camera.perspective.znear || 1, camera.perspective.zfar || 2e6 );
+				if ( camera.name !== undefined ) _camera.name = camera.name;
+
+				if ( camera.extras ) _camera.userData = camera.extras;
+
+				return _camera;
+
+			} else if ( camera.type == "orthographic" && camera.orthographic ) {
+
+				var _camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, camera.orthographic.znear, camera.orthographic.zfar );
+				if ( camera.name !== undefined ) _camera.name = camera.name;
+
+				if ( camera.extras ) _camera.userData = camera.extras;
+
+				return _camera;
 
 			}
-
-			if ( camera.type === 'perspective' ) {
-
-				var aspectRatio = params.aspectRatio || 1;
-				var xfov = params.yfov * aspectRatio;
-
-				_camera = new THREE.PerspectiveCamera( THREE.Math.radToDeg( xfov ), aspectRatio, params.znear || 1, params.zfar || 2e6 );
-
-			} else if ( camera.type === 'orthographic' ) {
-
-				_camera = new THREE.OrthographicCamera( params.xmag / -2, params.xmag / 2, params.ymag / 2, params.ymag / -2, params.znear, params.zfar );
-
-			}
-
-			if ( camera.name !== undefined ) _camera.name = camera.name;
-			if ( camera.extras ) _camera.userData = camera.extras;
-
-			return _camera;
 
 		} );
 
@@ -2415,7 +2389,12 @@ THREE.GLTF2Loader = ( function () {
 
 			return _each( json.skins, function ( skin ) {
 
+				var bindShapeMatrix = new THREE.Matrix4();
+
+				if ( skin.bindShapeMatrix !== undefined ) bindShapeMatrix.fromArray( skin.bindShapeMatrix );
+
 				var _skin = {
+					bindShapeMatrix: bindShapeMatrix,
 					joints: skin.joints,
 					inverseBindMatrices: dependencies.accessors[ skin.inverseBindMatrices ]
 				};
@@ -2553,10 +2532,12 @@ THREE.GLTF2Loader = ( function () {
 		var scope = this;
 
 		var nodes = json.nodes || [];
-		var skins = json.skins || [];
+    var skins = json.skins || [];
+
+    if(!(skins instanceof Array)) skins = []
 
 		// Nothing in the node definition indicates whether it is a Bone or an
-		// Object3D. Use the skins' joint references to mark bones.
+    // Object3D. Use the skins' joint references to mark bones.
 		skins.forEach( function ( skin ) {
 
 			skin.joints.forEach( function ( id ) {
@@ -2713,13 +2694,15 @@ THREE.GLTF2Loader = ( function () {
 									material = originalMaterial;
 									material.skinning = true;
 
-									child = new THREE.SkinnedMesh( geometry, material );
+									child = new THREE.SkinnedMesh( geometry, material, false );
 									child.castShadow = true;
 									child.userData = originalUserData;
 									child.name = originalName;
 
 									var bones = [];
-									var boneInverses = [];
+                  var boneInverses = [];
+
+                  if(!skinEntry.joints) skinEntry.joints = []
 
 									for ( var i = 0, l = skinEntry.joints.length; i < l; i ++ ) {
 
@@ -2742,7 +2725,32 @@ THREE.GLTF2Loader = ( function () {
 
 									}
 
-									child.bind( new THREE.Skeleton( bones, boneInverses ), child.matrixWorld );
+									child.bind( new THREE.Skeleton( bones, boneInverses, false ), skinEntry.bindShapeMatrix );
+
+									var buildBoneGraph = function ( parentJson, parentObject, property ) {
+
+										var children = parentJson[ property ];
+
+										if ( children === undefined ) return;
+
+										for ( var i = 0, il = children.length; i < il; i ++ ) {
+
+											var nodeId = children[ i ];
+											var bone = __nodes[ nodeId ];
+											var boneJson = json.nodes[ nodeId ];
+
+											if ( bone !== undefined && bone.isBone === true && boneJson !== undefined ) {
+
+												parentObject.add( bone );
+												buildBoneGraph( boneJson, bone, 'children' );
+
+											}
+
+										}
+
+									};
+
+									buildBoneGraph( node, child, 'skeletons' );
 
 								}
 
@@ -2763,11 +2771,13 @@ THREE.GLTF2Loader = ( function () {
 					}
 
 					if ( node.extensions
-							 && node.extensions[ EXTENSIONS.KHR_LIGHTS ]
-							 && node.extensions[ EXTENSIONS.KHR_LIGHTS ].light !== undefined ) {
+            && node.extensions[EXTENSIONS.KHR_LIGHTS ]
+            && node.extensions[EXTENSIONS.KHR_LIGHTS ].light ) {
 
-						var lights = extensions[ EXTENSIONS.KHR_LIGHTS ].lights;
-						_node.add( lights[ node.extensions[ EXTENSIONS.KHR_LIGHTS ].light ] );
+						var extensionLights = extensions[ EXTENSIONS.KHR_LIGHTS ].lights;
+						var light = extensionLights[ node.extensions[ EXTENSIONS.KHR_LIGHTS ].light ];
+
+						_node.add( light );
 
 					}
 
@@ -2852,16 +2862,6 @@ THREE.GLTF2Loader = ( function () {
 					}
 
 				} );
-
-				// Ambient lighting, if present, is always attached to the scene root.
-				if ( scene.extensions
-							 && scene.extensions[ EXTENSIONS.KHR_LIGHTS ]
-							 && scene.extensions[ EXTENSIONS.KHR_LIGHTS ].light !== undefined ) {
-
-					var lights = extensions[ EXTENSIONS.KHR_LIGHTS ].lights;
-					_scene.add( lights[ scene.extensions[ EXTENSIONS.KHR_LIGHTS ].light ] );
-
-				}
 
 				return _scene;
 
