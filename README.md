@@ -36,7 +36,7 @@ Here is a simple sample to get you started:
 <html>
 <head>
   <!--  polyfill for older browsers -->
-  <script src="https://cdnjs.com/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.22/webcomponents-lite.js"></script>
 
   <link rel="import" href="https://avgp.github.io/gltf-viewer/gltf-viewer.html">
 </head>
